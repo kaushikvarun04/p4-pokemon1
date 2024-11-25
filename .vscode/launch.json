@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(lldb) Debug Project",
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "build debug executable",
+            "program": "${workspaceFolder}/poke_debug",
+            "stdio": [
+                null, // redirect stdin
+                null, // redirect stdout
+                null // redirect stderr
+            ],
+            //"pedro_test-8-reg.txt", "<", "pedro_test-8-commands.txt"
+            //"test-7-reg.txt", "<", "test-7-commands.txt"
+            "args": ["-f" ,"test-7-reg.txt", "<", "test-7-commands.txt"],
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "postDebugTask": "clean workspace"
+        },
+    ]
+}
