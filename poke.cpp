@@ -17,6 +17,7 @@
 #include <limits>
 #include <queue>
 #include <iomanip>
+#include <cmath>
 using namespace std;
 double positiveInfinity = std::numeric_limits<double>::infinity();
 
@@ -48,26 +49,33 @@ struct pv
 {
     size_t parent;
     // need to fix
-    pv() : parent(100) {}
+    pv() : parent(SIZE_MAX) {}
 };
 struct PrimDS
 {
     // index these by vertex
-    vector<kv> kv;
-    vector<dv> dv;
-    vector<pv> pv;
+    vector<kv> trueValues;
+    vector<dv> distanceValues;
+    vector<pv> parentValues;
+};
+
+struct currBest
+{
+    vector<size_t> output;
+    double weight;
+    currBest() : weight(positiveInfinity) {}
 };
 class Pokemon
 {
     PrimDS prim;
     vector<Coordinate> coordinateList;
+    size_t totalCnt = 0;
 
 public:
     void readInputs(istream &cin, string mode)
     {
         Coordinate c;
         // there is probably a better way to do this
-        size_t totalCnt = 0;
         size_t landCntr = 0;
         size_t coastCntr = 0;
         size_t oceanCntr = 0;
@@ -95,9 +103,10 @@ public:
         }
         if (mode == "MST")
         {
-            prim.kv.resize(totalCnt);
-            prim.pv.resize(totalCnt);
-            prim.dv.resize(totalCnt);
+            prim.trueValues.resize(totalCnt);
+            prim.parentValues.resize(totalCnt);
+            prim.distanceValues.resize(totalCnt);
+            // idk how/if this will works
             if (landCntr > 1 && oceanCntr > 1 && coastCntr < 1)
             {
                 cerr << "Cannot construct MST";
@@ -109,10 +118,19 @@ public:
                 printMST();
             }
         }
+        if (mode == "FASTTSP")
+        {
+            vector<size_t> soln;
+            soln.resize(totalCnt);
+            prim.trueValues.resize(totalCnt);
+            currBest best;
+            checkNode(coordinateList[0], soln);
+        }
     }
     void createMST()
     {
-        prim.dv[0].distance = 0;
+        prim.distanceValues[0].distance = 0;
+        prim.parentValues[0].parent = 0;
 
         size_t trueCntr = 0;
         // Set starting point dv to 0.
@@ -126,33 +144,34 @@ public:
             for (size_t i = 0; i < coordinateList.size(); ++i)
             {
 
-                if (prim.kv[i].visited == false)
+                if (prim.trueValues[i].visited == false)
                 {
-                    if (bestDist > prim.dv[i].distance)
+                    if (prim.distanceValues[i].distance < bestDist)
                     {
-                        bestDist = prim.dv[i].distance;
+                        bestDist = prim.distanceValues[i].distance;
                         bestLoc = i;
                     }
                 }
             }
             // 2. Set kv to true.
-            prim.kv[bestLoc].visited = true;
+            prim.trueValues[bestLoc].visited = true;
             ++trueCntr;
             // 3. For each vertex w adjacent to v for which kw is false, test whether dw is
             // greater than distance(v,w). If it is, set dw to distance(v,w) and set pw to v.
             char t = coordinateList[bestLoc].terrain;
             for (size_t i = 0; i < coordinateList.size(); ++i)
             {
-                if ((coordinateList[i].terrain == t || t == 'C') && prim.kv[i].visited == false)
+                // something wrong here
+                if ((coordinateList[i].terrain == t || t == 'C' || coordinateList[i].terrain == 'C') && prim.trueValues[i].visited == false)
                 {
                     // will probably need to fix this
                     double x = coordinateList[bestLoc].x_cord - coordinateList[i].x_cord;
                     double y = coordinateList[bestLoc].y_cord - coordinateList[i].y_cord;
-                    double val = (x * x) + (y * y);
-                    if (prim.dv[i].distance > val)
+                    double val = (x * x) + (y * y); // this might be where the bug is
+                    if (prim.distanceValues[i].distance > val)
                     {
-                        prim.dv[i].distance = val; // curr stores squared distances, need to sqrt later
-                        prim.pv[i].parent = bestLoc;
+                        prim.distanceValues[i].distance = val; // curr stores squared distances, need to sqrt later
+                        prim.parentValues[i].parent = bestLoc;
                     }
                 }
             }
@@ -165,17 +184,13 @@ public:
         vector<pair<size_t, size_t>> output;
         for (size_t i = 0; i < coordinateList.size(); ++i)
         {
-            distance += sqrt(prim.dv[i].distance);
-            for (size_t j = 0; j < coordinateList.size(); ++j)
+            if (prim.parentValues[i].parent != i)
             {
-                if (prim.pv[j].parent == i)
-                {
-                    pair<size_t, size_t> p;
-                    p.first = min(i, j);
-                    p.second = max(i, j);
-                    output.push_back(p);
-                    break;
-                }
+                distance += sqrt(prim.distanceValues[i].distance);
+                pair<size_t, size_t> p;
+                p.first = min(i, prim.parentValues[i].parent);
+                p.second = max(i, prim.parentValues[i].parent);
+                output.push_back(p);
             }
         }
         cout << distance << "\n";
@@ -184,7 +199,135 @@ public:
             cout << output[i].first << " " << output[i].second << "\n";
         };
     }
+
+    double B_C_createMST()
+    {
+        prim.distanceValues[0].distance = 0;
+        prim.parentValues[0].parent = 0;
+
+        size_t trueCntr = 0;
+        // Set starting point dv to 0.
+        //  Loop v times (until every kv is true):
+        while (trueCntr < coordinateList.size())
+        {
+            size_t bestLoc = 0; // might need to default initialize this
+            double bestDist = positiveInfinity;
+            // 1. From the set of vertices for which kv is false, select the vertex v having the
+            // smallest tentative distance dv.
+            for (size_t i = 0; i < coordinateList.size(); ++i)
+            {
+
+                if (prim.trueValues[i].visited == false)
+                {
+                    if (prim.distanceValues[i].distance < bestDist)
+                    {
+                        bestDist = prim.distanceValues[i].distance;
+                        bestLoc = i;
+                    }
+                }
+            }
+            // 2. Set kv to true.
+            prim.trueValues[bestLoc].visited = true;
+            ++trueCntr;
+            // 3. For each vertex w adjacent to v for which kw is false, test whether dw is
+            // greater than distance(v,w). If it is, set dw to distance(v,w) and set pw to v.
+            char t = coordinateList[bestLoc].terrain;
+            for (size_t i = 0; i < coordinateList.size(); ++i)
+            {
+                if (prim.trueValues[i].visited == false)
+                {
+                    // will probably need to fix this
+                    double x = coordinateList[bestLoc].x_cord - coordinateList[i].x_cord;
+                    double y = coordinateList[bestLoc].y_cord - coordinateList[i].y_cord;
+                    double val = (x * x) + (y * y); // this might be where the bug is
+                    if (prim.distanceValues[i].distance > val)
+                    {
+                        prim.distanceValues[i].distance = val; // curr stores squared distances, need to sqrt later
+                        prim.parentValues[i].parent = bestLoc;
+                    }
+                }
+            }
+        }
+        double distance = 0;
+        for (size_t i = 0; i < coordinateList.size(); ++i)
+        {
+            if (prim.parentValues[i].parent != i)
+            {
+                distance += sqrt(prim.distanceValues[i].distance);
+            }
+        }
+    }
+
+    void checkNode(Coordinate c, vector<size_t> soln)
+    {
+        // arbitrary insertion
+        uint32_t trueCntr = 1;
+        for (int i = 1; i < totalCnt; ++i)
+        {
+            if (prim.trueValues[i].visited == false)
+            {
+                Coordinate u = coordinateList[i];
+                // this might cause a lot of problems...
+                prim.trueValues[i].visited = true;
+                ++trueCntr; // this might be rlly bad
+
+                break;
+            }
+        }
+        if (promising(c, trueCntr))
+        {
+            if (solution(trueCntr))
+            {
+                update(soln, )
+            }
+        }
+    }
+
+    void update(vector<size_t> o, double w)
+    {
+        best.output = o;
+        best.weight = w;
+    }
+
+    bool promising(Coordinate c, uint32_t tc)
+    {
+        // need to check how to only run for the values not in the solution rn
+        // need to check how to remove invalid solns, idk if there will be any tho
+        prim.parentValues.resize(totalCnt);
+        prim.distanceValues.resize(totalCnt);
+        if (totalCnt - tc < 4)
+        {
+            return true;
+        }
+        else if (best.weight + B_C_createMST() < b.weight)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool solution(uint32_t tc)
+    {
+        if (tc == totalCnt)
+        {
+            return true;
+        }
+        return false;
+    }
 };
+
+/*
+Algorithm checknode(Node v, Best currBest)
+Node u
+if (promising(v, currBest))
+    if (solution(v)) then
+        update(currBest)
+else
+    for each child u of v
+        checknode(u, currBest)
+return currBest
+
+*/
 
 int main(int argc, char *argv[])
 {
@@ -213,6 +356,7 @@ int main(int argc, char *argv[])
         {
             cout << "Usage: " << argv[0] << " hm: \n";
             cout << "This is a program to that uses tress with pokemon";
+            break;
         }
         case 'm':
         {
@@ -221,6 +365,7 @@ int main(int argc, char *argv[])
             {
                 cerr << "Error: Invalid mode";
             }
+            break;
         }
         }
     }
