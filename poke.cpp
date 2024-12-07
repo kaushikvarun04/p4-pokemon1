@@ -63,7 +63,8 @@ struct currBest
 {
     vector<size_t> output;
     double weight;
-    currBest() : weight(positiveInfinity) {}
+    uint32_t trueCntr;
+    currBest() : weight(positiveInfinity), trueCntr(1) {}
 };
 class Pokemon
 {
@@ -120,11 +121,13 @@ public:
         }
         if (mode == "FASTTSP")
         {
-            vector<size_t> soln;
-            soln.resize(totalCnt);
-            prim.trueValues.resize(totalCnt);
-            currBest best;
-            checkNode(coordinateList[0], soln);
+            printFast();
+
+       
+            // vector<size_t> soln = {0};
+            // currBest best;
+            // double currWeight = 0;
+            // checkNode(coordinateList[0], soln, best, currWeight);
         }
     }
     void createMST()
@@ -231,7 +234,6 @@ public:
             ++trueCntr;
             // 3. For each vertex w adjacent to v for which kw is false, test whether dw is
             // greater than distance(v,w). If it is, set dw to distance(v,w) and set pw to v.
-            char t = coordinateList[bestLoc].terrain;
             for (size_t i = 0; i < coordinateList.size(); ++i)
             {
                 if (prim.trueValues[i].visited == false)
@@ -256,64 +258,200 @@ public:
                 distance += sqrt(prim.distanceValues[i].distance);
             }
         }
+        return distance;
     }
 
-    void checkNode(Coordinate c, vector<size_t> soln)
-    {
-        // arbitrary insertion
-        uint32_t trueCntr = 1;
-        for (int i = 1; i < totalCnt; ++i)
-        {
-            if (prim.trueValues[i].visited == false)
-            {
-                Coordinate u = coordinateList[i];
-                // this might cause a lot of problems...
-                prim.trueValues[i].visited = true;
-                ++trueCntr; // this might be rlly bad
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to calculate Euclidean distance between two coordinates
+    double distance(const Coordinate& a, const Coordinate& b) {
+        double x = a.x_cord - b.x_cord;
+        double y = a.y_cord - b.y_cord;
+        return sqrt(x * x + y * y);
+    }
 
-                break;
+    // Function to find the best place to insert a vertex into a partial tour
+    void insertVertex(std::vector<size_t>& partialTour, size_t k) {
+        double minCostIncrease = positiveInfinity;
+        size_t bestInsertIndex = 0;
+
+        for (size_t n = 0; n < partialTour.size() - 1; ++n) {
+            size_t i = partialTour[n];
+            size_t j = partialTour[n + 1];
+            double currentCostIncrease = distance(coordinateList[i], coordinateList[k]) +
+                                        distance(coordinateList[k], coordinateList[j]) -
+                                        distance(coordinateList[i], coordinateList[j]);
+
+            if (currentCostIncrease < minCostIncrease) {
+                minCostIncrease = currentCostIncrease;
+                bestInsertIndex = n + 1; // Insert after `u`
             }
         }
-        if (promising(c, trueCntr))
-        {
-            if (solution(trueCntr))
-            {
-                update(soln, )
-            }
-        }
+
+        // Insert vertex into the best position found
+        partialTour.insert(partialTour.begin() + static_cast<int>(bestInsertIndex), k);
     }
 
-    void update(vector<size_t> o, double w)
-    {
-        best.output = o;
-        best.weight = w;
+    // Function to compute the total cost of a given tour
+    double computeTourCost(const std::vector<size_t>& tour) {
+        double totalCost = 0.0;
+        for (size_t i = 0; i < tour.size() - 1; ++i) {
+            totalCost += distance(coordinateList[tour[i]], coordinateList[tour[i + 1]]);
+        }
+        return totalCost;
     }
 
-    bool promising(Coordinate c, uint32_t tc)
-    {
-        // need to check how to only run for the values not in the solution rn
-        // need to check how to remove invalid solns, idk if there will be any tho
-        prim.parentValues.resize(totalCnt);
-        prim.distanceValues.resize(totalCnt);
-        if (totalCnt - tc < 4)
-        {
-            return true;
+    // Arbitrary Insertion Branch-and-Bound TSP Solver
+    vector<size_t> solveTSP() {
+        if (totalCnt < 2) return {}; // Handle edge cases
+
+        // Step 1: Initialize a partial tour with the first vertex
+        // Step 2: Add an arbitrary second vertex
+        std::vector<size_t> partialTour = {0,1,0};
+
+
+        // Step 3-5: Insert remaining vertices into the partial tour
+        for (size_t i = 2; i < totalCnt; ++i) {
+            insertVertex(partialTour, i);
         }
-        else if (best.weight + B_C_createMST() < b.weight)
-        {
-            return true;
-        }
-        return false;
+
+        return partialTour;
     }
 
-    bool solution(uint32_t tc)
-    {
-        if (tc == totalCnt)
-        {
-            return true;
+
+    void printFast(){
+        vector<size_t> output = solveTSP();
+        double cost = computeTourCost(output);
+        cout<<cost<<"\n";
+        for(size_t i = 0; i < totalCnt; ++ i){
+            cout<<output[i] << " ";
         }
-        return false;
+        
     }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+1. Initialize a partial tour with a vertex , chosen arbitrarily (you can just start with the first vertex available).
+2. Choose another arbitrary vertex  and set the initial partial tour to  i→ j →i .
+3. Arbitrarily select a vertex  that is currently not in the partial tour.
+4. Find the best place to insert vertex  into the partial tour to minimize cost. To do this, first identify the edge (, ) in the partial path
+such that  + − is minimal (where  denotes the distance between  and ), and then insert  between  and . Notice that
+ + − represents the change in overall cost after vertex  is added in between vertices  and , since you are removing the cost
+between  and  and adding the costs incurred by connecting  with  and .
+5. Once all the vertices have been added to the path, the algorithm completes. Otherwise, repeat steps 3-5 until all vertices have been added.
+
+*/
+
+
+    //THIS IS PART C!!!
+    // try to really understand how the recurssion here is suppsoed to work
+    // void checkNode(Coordinate c, vector<size_t> &soln, currBest &best, double currWeight)
+    // {
+    //     // need to create an inital loop with just 0,1,0 and then add these to that...
+    //     //  arbitrary insertion
+    //     if (soln.size() <= totalCnt)
+    //         for (size_t i = 1; i < totalCnt; ++i)
+    //         {
+    //             //            if (prim.trueValues[i].visited == false) //check if the value we're inserting is in the soln
+    //             if (find(soln.begin(), soln.end(), i) == soln.end())
+    //             {
+    //                 // size_t prev = soln.back();
+    //                 Coordinate u = coordinateList[i];
+    //                 soln.push_back(i);
+    //                 double x = u.x_cord - c.x_cord;
+    //                 double y = u.y_cord - c.y_cord;
+    //                 double edgeweight = sqrt((x * x) + (y * y));
+    //                 if (promising(soln, currWeight + edgeweight, best))
+    //                 {
+    //                     currWeight += edgeweight;
+    //                     if (solution(soln))
+    //                     {
+    //                         update(soln, currWeight + edgeweight, best);
+    //                     }else
+    //                     {
+    //                         for (size_t i = 0; i < totalCnt; ++i)
+    //                         {
+    //                             if (find(soln.begin(), soln.end(), i) == soln.end())
+    //                             {
+    //                                 size_t prev = soln.back();
+    //                                 soln.push_back(i);
+    //                                 Coordinate test = coordinateList[i];
+    //                                 double x = test.x_cord - coordinateList[prev].x_cord;
+    //                                 double y = test.y_cord - coordinateList[prev].y_cord;
+    //                                 double edgeweight = sqrt((x * x) + (y * y));
+    //                                 checkNode(test, soln, best, currWeight + edgeweight);
+    //                                 soln.pop_back(); 
+    //                                 //currWeight -= edgeWeight;
+    //                             }
+    //                         }
+    //                     }
+    //                 }else{
+    //                     soln.pop_back();
+    //                     //currWeight-=edgeWeight
+    //                 }
+    //             } 
+    //         }
+    // }
+
+    // void update(vector<size_t> o, double w, currBest &best)
+    // {
+    //     best.output = o;
+    //     best.weight = w;
+    // }
+
+    // bool promising(vector<size_t> soln, double currWeight, currBest best)
+    // {
+    //     // need to check how to only run for the values not in the solution rn
+    //     // need to check how to remove invalid solns, idk if there will be any tho
+    //     prim.parentValues.resize(totalCnt);
+    //     prim.trueValues.resize(totalCnt);
+    //     prim.distanceValues.resize(totalCnt);
+    //     if (totalCnt - soln.size() < 4)
+    //     {
+    //         return true;
+    //     }
+    //     else if (currWeight + B_C_createMST() < best.weight)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+    // bool solution(vector<size_t> soln)
+    // {
+    //     if (soln.size() >= totalCnt)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 };
 
 /*
@@ -371,9 +509,6 @@ int main(int argc, char *argv[])
     }
 
     Pokemon poke;
-    if (mode == "MST")
-    {
-        poke.readInputs(cin, mode);
-        // do something
-    }
+    poke.readInputs(cin, mode);
+    // do something
 }
