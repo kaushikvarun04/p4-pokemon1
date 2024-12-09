@@ -1,0 +1,149 @@
+ 0  1  2  3  4  5  6  7  8  9 10    1      0.00     25.50     25.50    212.15    263.14  true
+ 0  1  2  3  4  5  6  7  8  9 10    2     43.10     25.50     26.93    217.31    312.83  true
+ 0  1  2  3  4  5  6  7  8  9 10    3     80.69     25.50     44.60    172.78    323.56  true
+ 0  1  2  3  4  5  6  7  8  9 10    4    163.72     25.50     23.43    149.35    361.99  false
+ 0  1  2  4  3  5  6  7  8  9 10    4    136.69     25.50     20.00    167.86    350.05  false
+ 0  1  2  5  4  3  6  7  8  9 10    4    125.29     25.50     20.52    152.26    323.56  true
+ 0  1  2  5  4  3  6  7  8  9 10    5    145.81     25.50     20.00    149.05    340.36  false
+ 0  1  2  5  3  4  6  7  8  9 10    5    169.68     25.50     23.43    128.83    347.43  false
+ 0  1  2  5  6  3  4  7  8  9 10    5    212.42     59.94     59.20     93.06    424.62  false
+ 0  1  2  5  7  3  6  4  8  9 10    5    163.31     25.50      5.39    153.23    347.42  false
+ 0  1  2  5  8  3  6  7  4  9 10    5    158.31     25.50      5.39    149.86    339.05  false
+ 0  1  2  5  9  3  6  7  8  4 10    5    178.43     25.50     20.81    131.45    356.19  false
+ 0  1  2  5 10  3  6  7  8  9  4    5    151.31     25.50     20.00    135.90    332.71  true
+ 0  1  2  5 10  3  6  7  8  9  4    6    174.74     25.50     27.07    108.83    336.14  true
+ 0  1  2  5 10  3  6  7  8  9  4    7    278.75     59.94     59.20     49.62    447.52  false
+ 0  1  2  5 10  3  7  6  8  9  4    7    219.92     25.50      5.39    109.80    360.60  false
+ 0  1  2  5 10  3  8  7  6  9  4    7    219.69     25.50      5.39    106.43    357.00  false
+ 0  1  2  5 10  3  9  7  8  6  4    7    214.97     25.50     20.81     88.02    349.29  false
+ 0  1  2  5 10  3  4  7  8  9  6    7    201.82     25.50     23.43     85.40    336.14  true
+ 0  1  2  5 10  3  4  7  8  9  6    8    228.24     25.50      5.39     86.37    345.49  false
+ 0  1  2  5 10  3  4  8  7  9  6    8    225.25     25.50      5.39     80.01    336.14  true
+ 0  1  2  5 10  3  4  8  7  9  6    9    230.63     25.50     20.81     68.35    345.29  false
+ 0  1  2  5 10  3  4  8  9  7  6    9    250.74     25.50     20.81     59.20    356.25  false
+ 0  1  2  5 10  3  4  8  6  9  7    9    286.12     59.94     59.20     20.81    426.08  false
+ 0  1  2  5 10  3  4  9  8  7  6    8    237.04     25.50     20.81     64.59    347.94  false
+ 0  1  2  5 10  3  4  6  8  9  7    8    285.97     59.94     59.20     26.19    431.30  false
+ 0  1  2  5 10  6  3  7  8  9  4    6    255.28     59.94     59.20     76.70    451.12  false
+ 0  1  2  5 10  7  6  3  8  9  4    6    197.64     25.50      5.39    136.88    365.39  false
+ 0  1  2  5 10  8  6  7  3  9  4    6    194.73     25.50      5.39    133.51    359.11  false
+ 0  1  2  5 10  9  6  7  8  3  4    6    202.94     25.50     20.81    115.09    364.33  false
+ 0  1  2  5 10  4  6  7  8  9  3    6    171.31     25.50     23.43    125.62    345.86  false
+ 0  1  2  6  4  5  3  7  8  9 10    4    139.83     59.94     59.20    113.57    372.55  false
+ 0  1  2  7  4  5  6  3  8  9 10    4    129.46     25.50      5.39    173.75    334.09  true
+ 0  1  2  7  4  5  6  3  8  9 10    5    155.88     25.50     20.00    168.84    370.21  false
+ 0  1  2  7  5  4  6  3  8  9 10    5    167.47     25.50     20.52    153.23    366.72  false
+ 0  1  2  7  6  5  4  3  8  9 10    5    188.66     60.88     60.88    112.87    423.29  false
+ 0  1  2  7  3  5  6  4  8  9 10    5    174.64     25.50     23.43    150.32    373.88  false
+ 0  1  2  7  8  5  6  3  4  9 10    5    134.84     25.50     23.43    167.53    351.30  false
+ 0  1  2  7  9  5  6  3  8  4 10    5    150.27     25.50     25.50    148.26    349.51  false
+ 0  1  2  7 10  5  6  3  8  9  4    5    175.78     25.50     20.00    157.40    378.67  false
+ 0  1  2  8  4  5  6  7  3  9 10    4    125.47     25.50      5.39    170.38    326.73  true
+ 0  1  2  8  4  5  6  7  3  9 10    5    148.90     25.50     20.00    167.47    361.87  false
+ 0  1  2  8  5  4  6  7  3  9 10    5    158.49     25.50     20.52    149.86    354.36  false
+ 0  1  2  8  6  5  4  7  3  9 10    5    186.35     59.94     59.20    111.18    416.67  false
+ 0  1  2  8  7  5  6  4  3  9 10    5    130.86     25.50     20.81    167.53    344.69  false
+ 0  1  2  8  3  5  6  7  4  9 10    5    170.42     25.50     23.43    146.95    366.29  false
+ 0  1  2  8  9  5  6  7  3  4 10    5    150.97     25.50     20.81    149.57    346.84  false
+ 0  1  2  8 10  5  6  7  3  9  4    5    168.89     25.50     20.00    154.02    368.41  false
+ 0  1  2  9  4  5  6  7  8  3 10    4    150.16     25.50     20.81    151.97    348.43  false
+ 0  1  2 10  4  5  6  7  8  9  3    4    150.55     25.50     20.00    156.42    352.47  false
+ 0  1  3  2  4  5  6  7  8  9 10    3    115.12     25.50     23.43    193.88    357.92  false
+ 0  1  4  3  2  5  6  7  8  9 10    3     93.43     25.50     20.00    212.39    351.32  false
+ 0  1  5  3  4  2  6  7  8  9 10    3     96.77     25.50     20.52    196.97    339.75  false
+ 0  1  6  3  4  5  2  7  8  9 10    3     77.16     59.94     59.14    158.17    354.41  false
+ 0  1  7  3  4  5  6  2  8  9 10    3     70.03     25.50      5.39    216.61    317.52  true
+ 0  1  7  3  4  5  6  2  8  9 10    4    115.21     25.50     23.43    193.18    357.31  false
+ 0  1  7  4  3  5  6  2  8  9 10    4     96.45     25.50     20.00    211.69    353.64  false
+ 0  1  7  5  4  3  6  2  8  9 10    4    108.04     25.50     20.52    196.27    350.33  false
+ 0  1  7  6  4  5  3  2  8  9 10    4    129.23     60.88     59.14    157.47    406.72  false
+ 0  1  7  2  4  5  6  3  8  9 10    4    118.80     25.50     44.60    173.75    362.64  false
+ 0  1  7  8  4  5  6  2  3  9 10    4     75.42     25.50     23.43    202.91    327.25  true
+ 0  1  7  8  4  5  6  2  3  9 10    5     98.85     25.50     20.00    193.41    337.75  false
+ 0  1  7  8  5  4  6  2  3  9 10    5    108.43     25.50     20.52    193.79    348.24  false
+ 0  1  7  8  6  5  4  2  3  9 10    5    136.29     60.88     59.14    143.78    400.08  false
+ 0  1  7  8  2  5  6  4  3  9 10    5    120.19     25.50     44.60    167.53    357.81  false
+ 0  1  7  8  3  5  6  2  4  9 10    5    120.36     25.50     23.43    179.48    348.77  false
+ 0  1  7  8  9  5  6  2  3  4 10    5    100.91     25.50     35.23    167.68    329.32  true
+ 0  1  7  8  9  5  6  2  3  4 10    6    154.05     25.50     20.52    158.57    358.63  false
+ 0  1  7  8  9  6  5  2  3  4 10    6    169.26     77.47     59.14    108.55    414.41  false
+ 0  1  7  8  9  2  6  5  3  4 10    6    170.37     25.50     44.60    148.10    388.56  false
+ 0  1  7  8  9  3  6  2  5  4 10    6    141.13     25.50     23.43    144.25    334.31  true
+ 0  1  7  8  9  3  6  2  5  4 10    7    245.14     77.47     59.14     85.12    466.86  false
+ 0  1  7  8  9  3  2  6  5  4 10    7    224.16     25.50     44.60    124.67    418.92  false
+ 0  1  7  8  9  3  5  2  6  4 10    7    185.52     25.50     20.52    135.14    366.67  false
+ 0  1  7  8  9  3  4  2  5  6 10    7    168.21     25.50     20.00    129.75    343.46  false
+ 0  1  7  8  9  3 10  2  5  4  6    7    164.57     25.50     20.00    124.25    334.31  true
+ 0  1  7  8  9  3 10  2  5  4  6    8    234.42     25.50     44.60    104.67    409.18  false
+ 0  1  7  8  9  3 10  5  2  4  6    8    190.58     25.50     20.52    115.14    351.73  false
+ 0  1  7  8  9  3 10  4  5  2  6    8    184.57     25.50     20.52    103.73    334.31  true
+ 0  1  7  8  9  3 10  4  5  2  6    9    205.08     25.50     44.60     59.14    334.31  true
+ 0  1  7  8  9  3 10  4  5  2  6   10    249.68     25.50     59.14      0.00    334.31  true
+=================================================================
+==80981==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x000103001cf8 at pc 0x00010032ec54 bp 0x00016fb2f330 sp 0x00016fb2f328
+READ of size 8 at 0x000103001cf8 thread T0
+    #0 0x10032ec50 in Pokemon::genPerms(unsigned long) poke.cpp:325
+    #1 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #2 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #3 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #4 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #5 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #6 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #7 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #8 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #9 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #10 0x10032f74c in Pokemon::genPerms(unsigned long) poke.cpp:344
+    #11 0x1002e339c in Pokemon::optTSP() poke.cpp:310
+    #12 0x1002d1a08 in Pokemon::readInputs(std::__1::basic_istream<char, std::__1::char_traits<char>>&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>) poke.cpp:137
+    #13 0x1002cea28 in main poke.cpp:600
+    #14 0x189d88270  (<unknown module>)
+
+0x000103001cf8 is located 0 bytes after 88-byte region [0x000103001ca0,0x000103001cf8)
+allocated by thread T0 here:
+    #0 0x10081574c in wrap__Znwm+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x6174c)
+    #1 0x1002e8874 in void* std::__1::__libcpp_operator_new[abi:ne180100]<unsigned long>(unsigned long) new:303
+    #2 0x1002e87d8 in std::__1::__libcpp_allocate[abi:ne180100](unsigned long, unsigned long) new:327
+    #3 0x10031a56c in std::__1::allocator<unsigned long>::allocate[abi:ne180100](unsigned long) allocator.h:125
+    #4 0x100319d20 in std::__1::__allocation_result<std::__1::allocator_traits<std::__1::allocator<unsigned long>>::pointer> std::__1::__allocate_at_least[abi:ne180100]<std::__1::allocator<unsigned long>>(std::__1::allocator<unsigned long>&, unsigned long) allocate_at_least.h:55
+    #5 0x100318638 in std::__1::vector<unsigned long, std::__1::allocator<unsigned long>>::__vallocate[abi:ne180100](unsigned long) vector:741
+    #6 0x100330a94 in void std::__1::vector<unsigned long, std::__1::allocator<unsigned long>>::__assign_with_size[abi:ne180100]<unsigned long const*, unsigned long const*>(unsigned long const*, unsigned long const*, long) vector:1345
+    #7 0x1003306a4 in void std::__1::vector<unsigned long, std::__1::allocator<unsigned long>>::assign<unsigned long const*, 0>(unsigned long const*, unsigned long const*) vector:1326
+    #8 0x10032e6fc in std::__1::vector<unsigned long, std::__1::allocator<unsigned long>>::operator=[abi:ne180100](std::initializer_list<unsigned long>) vector:515
+    #9 0x1002e3368 in Pokemon::optTSP() poke.cpp:309
+    #10 0x1002d1a08 in Pokemon::readInputs(std::__1::basic_istream<char, std::__1::char_traits<char>>&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>) poke.cpp:137
+    #11 0x1002cea28 in main poke.cpp:600
+    #12 0x189d88270  (<unknown module>)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow poke.cpp:325 in Pokemon::genPerms(unsigned long)
+Shadow bytes around the buggy address:
+  0x000103001a00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103001a80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103001b00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103001b80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103001c00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x000103001c80: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00[fa]
+  0x000103001d00: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000103001d80: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fd
+  0x000103001e00: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000103001e80: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 00
+  0x000103001f00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==80981==ABORTING

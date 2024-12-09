@@ -14,7 +14,7 @@
             ],
             //"pedro_test-8-reg.txt", "<", "pedro_test-8-commands.txt"
             //"test-7-reg.txt", "<", "test-7-commands.txt"
-            "args": ["-m" ,"FASTTSP", "<", "sample-e.txt"],
+            "args": ["-m" ,"OPTTSP", "<", "sample-e.txt"],
             "stopOnEntry": false,
             "cwd": "${workspaceFolder}",
             "postDebugTask": "clean workspace"
