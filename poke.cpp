@@ -72,7 +72,7 @@ class Pokemon
     vector<Coordinate> coordinateList;
     size_t totalCnt = 0;
     vector<size_t> currPath;
-    //size_t pL = 1;
+    // size_t pL = 1;
     double currCost = 0.0;
     currBest best;
 
@@ -305,34 +305,40 @@ public:
         best.output = solveTSP();
         best.weight = computeTourCost(best.output);
         currCost = 0;
-        //currPath = best.output;
-        currPath = {0,1,2,3,4,5,6,7,8,9,10};
+        // currPath = best.output;
+        currPath = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         genPerms(1);
-        for (size_t i = 2; i < totalCnt - 1; ++i)
+        for (size_t i = 0; i < currPath.size(); ++i)
         {
-            if (i == 9)
-            {
-                genPerms(i);
-            }
-            genPerms(i);
+            cerr << best.output[i] << " ";
         }
+
+        // for (size_t i = 2; i < totalCnt - 1; ++i)
+        // {
+        //     if (i == 9)
+        //     {
+        //         genPerms(i);
+        //     }
+        //     genPerms(i);
+        // }
     }
 
     void genPerms(size_t permLength)
     {
         if (permLength == currPath.size())
         {
-            currCost += distance(coordinateList[currPath[permLength-1]], coordinateList[currPath[permLength]]);
-            
+            Coordinate a = coordinateList[currPath[0]];
+            Coordinate b = coordinateList[currPath[permLength - 1]];
+            currCost += distance(a, b);
+
             if (currCost < best.weight)
             {
-                cerr<<"New best achieved weight:";
+                cerr << "New best achieved weight:";
                 best.output = currPath;
                 best.weight = currCost;
-                cout<<best.weight<<"\n";
-
+                cout << best.weight << "\n";
             }
-            currCost -= distance(coordinateList[currPath[permLength-1]], coordinateList[currPath[permLength]]);
+            currCost -= distance(coordinateList[currPath[0]], coordinateList[currPath[permLength - 1]]);
 
             return;
         } // if ..complete path
@@ -346,11 +352,13 @@ public:
         {
             swap(currPath[permLength], currPath[i]);
             currCost += distance(coordinateList[currPath[permLength - 1]], coordinateList[currPath[permLength]]);
-            if(permLength == 9){
-                //do something
+            if (currPath[1] == 10)
+            {
+                // do something
                 genPerms(permLength + static_cast<size_t>(1));
-
-            }else{
+            }
+            else
+            {
                 genPerms(permLength + static_cast<size_t>(1));
             }
             currCost -= distance(coordinateList[currPath[permLength - 1]], coordinateList[currPath[permLength]]);
@@ -358,10 +366,26 @@ public:
         } // for ..unpermuted elements
     } // genPerms()
 
-    void update(vector<size_t> o, double w, currBest &best)
+    void printOPTTSP()
     {
-        best.output = o;
-        best.weight = w;
+        double distance = 0;
+        vector<pair<size_t, size_t>> output;
+        for (size_t i = 0; i < coordinateList.size(); ++i)
+        {
+            if (prim.parentValues[i].parent != i)
+            {
+                distance += sqrt(prim.distanceValues[i].distance);
+                pair<size_t, size_t> p;
+                p.first = min(i, prim.parentValues[i].parent);
+                p.second = max(i, prim.parentValues[i].parent);
+                output.push_back(p);
+            }
+        }
+        cout << distance << "\n";
+        for (size_t i = 0; i < output.size(); ++i)
+        {
+            cout << output[i].first << " " << output[i].second << "\n";
+        };
     }
 
     vector<double> lower_bound(size_t permLength)
@@ -369,7 +393,7 @@ public:
         // need to put the stuff left in the thing here
         // check if
         vector<size_t> runPrim;
-        runPrim.assign(currPath.begin() + static_cast<int>(permLength), currPath.end()); //currPath.end()-1
+        runPrim.assign(currPath.begin() + static_cast<int>(permLength), currPath.end()); // currPath.end()-1
         PrimDS prim2;
         prim2.distanceValues.resize(runPrim.size());
         prim2.parentValues.resize(runPrim.size());
@@ -409,7 +433,7 @@ public:
             {
                 if (prim2.trueValues[i].visited == false)
                 {
-                    //OVERTIME BECAUSE OF THIS PROLLY
+                    // OVERTIME BECAUSE OF THIS PROLLY
                     double val = distance(coordinateList[runPrim[bestLoc]], coordinateList[runPrim[i]]);
                     if (prim2.distanceValues[i].distance > val)
                     {
@@ -419,8 +443,6 @@ public:
                 }
             }
         }
-
-
 
         double leftHand = positiveInfinity;
         double rightHand = positiveInfinity;
@@ -433,12 +455,14 @@ public:
         for (size_t i = 0; i < runPrim.size(); ++i)
         {
             double a = distance(coordinateList[currPath[0]], coordinateList[runPrim[i]]);
-            double b = distance(coordinateList[currPath[permLength-1]], coordinateList[runPrim[i]]);
-            if(a < leftHand){
+            double b = distance(coordinateList[currPath[permLength - 1]], coordinateList[runPrim[i]]);
+            if (a < leftHand)
+            {
                 leftHand = a;
             }
 
-            if(b < rightHand){
+            if (b < rightHand)
+            {
                 rightHand = b;
             }
         }
@@ -447,11 +471,9 @@ public:
         output.push_back(leftHand);
         output.push_back(rightHand);
         MSTcost = MSTcost + leftHand + rightHand;
-        //return totalDistance;
+        // return totalDistance;
         return output;
     }
-
-
 
     bool promising(size_t permLength2)
     {
@@ -459,7 +481,7 @@ public:
         // need to check how to remove invalid solns, idk if there will be any tho
         // if (totalCnt - currPath.size() < 4)
         // {
-         //   return true;
+        //   return true;
         //}
         bool promise = false;
 
@@ -467,20 +489,18 @@ public:
         double out = currCost + a[0] + a[1] + a[2];
         if (out < best.weight)
         {
-             promise = true;
+            promise = true;
         }
-        for (size_t i = 0; i < currPath.size(); ++i) {
+        for (size_t i = 0; i < currPath.size(); ++i)
+        {
             cerr << setw(2) << currPath[i] << ' ';
         } // for
         cerr << setw(4) << permLength2 << setw(10) << currCost;
         cerr << setw(10) << a[1] << setw(10) << a[2];
         cerr << setw(10) << a[0] << setw(10) << out << "  " << promise << '\n';
 
-
         return promise;
     }
-
-
 };
 
 /*
