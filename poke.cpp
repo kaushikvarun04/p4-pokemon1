@@ -18,6 +18,7 @@
 #include <queue>
 #include <iomanip>
 #include <cmath>
+#include <cassert>
 using namespace std;
 double positiveInfinity = std::numeric_limits<double>::infinity();
 
@@ -94,7 +95,7 @@ public:
                 c.terrain = 'O';
                 oceanCntr++;
             }
-            else if (c.x_cord == 0 || c.y_cord == 0)
+            else if ((c.x_cord == 0 && c.y_cord <= 0) || (c.y_cord == 0 && c.x_cord <= 0))
             {
                 c.terrain = 'C';
                 coastCntr++;
@@ -270,13 +271,14 @@ public:
         {
             insertVertex(partialTour, i);
         }
-
+        // partialTour.pop_back();
         return partialTour;
     }
 
     void printFast()
     {
         vector<size_t> output = solveTSP();
+        // output.pop_back();
         double cost = computeTourCost(output);
         cout << cost << "\n";
         for (size_t i = 0; i < totalCnt; ++i)
@@ -305,12 +307,18 @@ public:
         best.output = solveTSP();
         best.weight = computeTourCost(best.output);
         currCost = 0;
-        // currPath = best.output;
-        currPath = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        best.output.pop_back();
+        currPath = best.output;
+        // currPath = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         genPerms(1);
+        cout << best.weight << "\n";
+        // if(best.output.size() == totalCnt++){
+        //     best.output.pop_back();
+        // }
+
         for (size_t i = 0; i < currPath.size(); ++i)
         {
-            cerr << best.output[i] << " ";
+            cout << best.output[i] << " ";
         }
 
         // for (size_t i = 2; i < totalCnt - 1; ++i)
@@ -333,10 +341,10 @@ public:
 
             if (currCost < best.weight)
             {
-                cerr << "New best achieved weight:";
+                //cerr << "New best cost achieved: ";
                 best.output = currPath;
                 best.weight = currCost;
-                cout << best.weight << "\n";
+                //cout << best.weight << "\n";
             }
             currCost -= distance(coordinateList[currPath[0]], coordinateList[currPath[permLength - 1]]);
 
@@ -352,7 +360,7 @@ public:
         {
             swap(currPath[permLength], currPath[i]);
             currCost += distance(coordinateList[currPath[permLength - 1]], coordinateList[currPath[permLength]]);
-            if (currPath[1] == 10)
+            if (currPath[1] == 15)
             {
                 // do something
                 genPerms(permLength + static_cast<size_t>(1));
@@ -424,7 +432,7 @@ public:
             }
             // 2. Set kv to true.
             prim2.trueValues[bestLoc].visited = true;
-            MSTcost += bestDist;
+            MSTcost += sqrt(bestDist);
             ++trueCntr;
 
             // 3. For each vertex w adjacent to v for which kw is false, test whether dw is
@@ -434,7 +442,13 @@ public:
                 if (prim2.trueValues[i].visited == false)
                 {
                     // OVERTIME BECAUSE OF THIS PROLLY
-                    double val = distance(coordinateList[runPrim[bestLoc]], coordinateList[runPrim[i]]);
+                    // double val2 = distance(coordinateList[runPrim[bestLoc]], coordinateList[runPrim[i]]);
+                    double x = coordinateList[runPrim[bestLoc]].x_cord - coordinateList[runPrim[i]].x_cord;
+                    double y = coordinateList[runPrim[bestLoc]].y_cord - coordinateList[runPrim[i]].y_cord;
+                    double val = (x * x) + (y * y); // this might be where the bug is
+                    // double a = sqrt(val);
+                    // cerr<<a << " " << val2 << "\n";
+                    // assert(a == val2);
                     if (prim2.distanceValues[i].distance > val)
                     {
                         prim2.distanceValues[i].distance = val; // curr stores squared distances, need to sqrt later
@@ -479,27 +493,28 @@ public:
     {
         // need to check how to only run for the values not in the solution rn
         // need to check how to remove invalid solns, idk if there will be any tho
-        // if (totalCnt - currPath.size() < 4)
-        // {
-        //   return true;
-        //}
-        bool promise = false;
+        if (permLength2 - currPath.size() < 4)
+        {
+          return true;
+        }
+        //bool promise = false;
 
         vector<double> a = lower_bound(permLength2);
         double out = currCost + a[0] + a[1] + a[2];
         if (out < best.weight)
         {
-            promise = true;
+            //promise = true;
+            return true;
         }
-        for (size_t i = 0; i < currPath.size(); ++i)
-        {
-            cerr << setw(2) << currPath[i] << ' ';
-        } // for
-        cerr << setw(4) << permLength2 << setw(10) << currCost;
-        cerr << setw(10) << a[1] << setw(10) << a[2];
-        cerr << setw(10) << a[0] << setw(10) << out << "  " << promise << '\n';
-
-        return promise;
+        // for (size_t i = 0; i < currPath.size(); ++i)
+        // {
+        //     cerr << setw(2) << currPath[i] << ' ';
+        // } // for
+        // cerr << setw(4) << permLength2 << setw(10) << currCost;
+        // cerr << setw(10) << a[1] << setw(10) << a[2];
+        // cerr << setw(10) << a[0] << setw(10) << out << "  " << promise << '\n';
+        //return promise;
+        return false;
     }
 };
 
@@ -615,7 +630,7 @@ int main(int argc, char *argv[])
     }
 
     Pokemon poke;
-    cerr << fixed << showpoint << setprecision(2) << boolalpha;
+    //cerr << fixed << showpoint << setprecision(2) << boolalpha;
     poke.readInputs(cin, mode);
     // do something
 }
